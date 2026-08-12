@@ -8,7 +8,7 @@ const columns = [
   "Actual Time",
   "Invoice Time",
   "Extra Time/Difference",
-  "Return Amount",
+  "Required Return Amount",
   "Paid Amount",
   "Paid Date",
   "Balance"
@@ -142,7 +142,7 @@ function rowBalance(record) {
 
   return (
     numberValue(record["Paid Amount"]) -
-    numberValue(record["Return Amount"])
+    numberValue(record["Required Return Amount"])
   );
 }
 
@@ -181,7 +181,7 @@ function updateBalance() {
   );
 
   const totalReturn = filtered.reduce(
-    (sum, record) => sum + numberValue(record["Return Amount"]),
+    (sum, record) => sum + numberValue(record["Required Return Amount"]),
     0
   );
 
@@ -197,7 +197,7 @@ function renderPublic() {
     .map(record => `
       <tr>
         <td>${escapeHTML(record.Date || "—")}</td>
-        <td class="money">${money(record["Return Amount"])}</td>
+        <td class="money">${money(record["Required Return Amount"])}</td>
         <td class="money">
           ${record["Paid Amount"] !== ""
             ? money(record["Paid Amount"])
@@ -217,8 +217,8 @@ function renderPublic() {
             <span>${escapeHTML(record.Date || "—")}</span>
           </div>
           <div class="detail-row">
-            <span>Return Amount</span>
-            <span>${money(record["Return Amount"])}</span>
+            <span>Required Return Amount</span>
+            <span>${money(record["Required Return Amount"])}</span>
           </div>
           <div class="detail-row">
             <span>Paid Amount</span>
@@ -249,7 +249,7 @@ function renderAdmin() {
           <td>${escapeHTML(formatDuration(record["Actual Time"]))}</td>
           <td>${escapeHTML(formatDuration(record["Invoice Time"]))}</td>
           <td>${escapeHTML(calculatedDifference(record))}</td>
-          <td class="money">${money(record["Return Amount"])}</td>
+          <td class="money">${money(record["Required Return Amount"])}</td>
           <td>
             <input
               class="payment-input"
@@ -301,8 +301,8 @@ function renderAdmin() {
               <span>${escapeHTML(calculatedDifference(record))}</span>
             </div>
             <div class="detail-row">
-              <span>Return Amount</span>
-              <span>${money(record["Return Amount"])}</span>
+              <span>Required Return Amount</span>
+              <span>${money(record["Required Return Amount"])}</span>
             </div>
             <div class="detail-row">
               <span>Paid Date</span>
